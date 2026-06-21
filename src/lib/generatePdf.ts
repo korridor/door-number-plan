@@ -59,7 +59,7 @@ export function generatePdf(plan: BuildingPlan, fallbackTitle: string, labels: P
       const fontSize = rowHeight < 10 ? 7 : rowHeight < 13 ? 9 : 11;
       doc.setFontSize(fontSize);
       doc.setFont('helvetica', 'bold');
-      doc.text(level.name, margin + 5, y + rowHeight / 2 + fontSize * 0.13, { baseline: 'middle' });
+      doc.text(level.name, margin + 5, y + rowHeight / 2, { baseline: 'middle' });
       doc.setFont('helvetica', 'normal');
 
       const tokens = level.items
@@ -69,7 +69,7 @@ export function generatePdf(plan: BuildingPlan, fallbackTitle: string, labels: P
           return `[${labels.elevator}]`;
         });
       const lines = doc.splitTextToSize(tokens.join('   '), tableWidth - labelWidth - 10);
-      doc.text(lines, margin + labelWidth + 5, y + rowHeight / 2 + fontSize * 0.13, { baseline: 'middle' });
+      doc.text(lines, margin + labelWidth + 5, y + rowHeight / 2, { baseline: 'middle' });
     });
 
     doc.setFont('helvetica', 'normal');

@@ -10,18 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Check out code"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: "Setup node"
-        uses: actions/setup-node@v4
+        uses: pnpm/action-setup@v6
         with:
-          node-version: 18
+          cache: true
 
-      - name: "Install npm dependencies"
-        run: npm ci
+      - name: "Install dependencies"
+        run: pnpm install
 
       - name: "Build static site"
-        run: npx astro build
+        run: pnpm build
 
       - name: "Setup PHP with PECL extension"
         uses: shivammathur/setup-php@v2
@@ -31,6 +31,27 @@ jobs:
 
       - name: "Download Fastfront CLI"
         run: curl https://fastfront-cli.s3.fr-par.scw.cloud/fastfront-cli.phar -o fastfront-cli.phar
+
+      - name: Diagnose Fastfront configuration
+        shell: bash
+        env:
+          PROD_KEY: ${{ secrets.FASTFRONT_PROD_API_KEY }}
+          STAGING_KEY: ${{ secrets.FASTFRONT_STAGING_API_KEY }}
+        run: |
+          echo "ref=$GITHUB_REF"
+          echo "event=$GITHUB_EVENT_NAME"
+
+          if [[ -n "$PROD_KEY" ]]; then
+            echo "Production key is available"
+          else
+            echo "::error::Production key is empty or unavailable"
+          fi
+
+          if [[ -n "$STAGING_KEY" ]]; then
+            echo "Staging key is available"
+          else
+            echo "::error::Staging key is empty or unavailable"
+          fi
 
       - name: "Deploy with Fastfront"
         run: php fastfront-cli.phar deploy $FASTFRONT_STAGE ./dist

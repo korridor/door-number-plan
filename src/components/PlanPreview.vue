@@ -46,8 +46,8 @@ function visibleItems(level: BuildingLevel) {
 
             <div class="mt-[4%] grid min-h-0 flex-1 gap-[clamp(2px,.55vw,6px)]" :style="{ gridTemplateRows: `repeat(${Math.max(levels.length, 1)}, minmax(0, 1fr))` }">
               <div v-for="level in levels" :key="level.id" class="grid min-h-0 grid-cols-[30%_1fr] overflow-hidden rounded-[clamp(2px,.45vw,6px)] bg-[#eef1ed] text-[clamp(.36rem,1.15vw,.82rem)]">
-                <div class="flex min-h-0 items-center truncate px-[7%] font-semibold">{{ level.name }}</div>
-                <div class="flex min-h-0 flex-wrap items-center gap-x-[clamp(5px,1.4vw,16px)] gap-y-0 overflow-hidden border-l border-white px-[4%] font-medium">
+                <div class="flex h-full min-h-0 items-center truncate px-[7%] font-semibold leading-none">{{ level.name }}</div>
+                <div class="flex h-full min-h-0 flex-wrap content-center items-center gap-x-[clamp(5px,1.4vw,16px)] gap-y-0 overflow-hidden border-l border-white px-[4%] font-medium leading-none">
                   <template v-for="item in visibleItems(level)" :key="item.id">
                     <span v-if="item.type === 'door'">{{ item.label }}</span>
                     <span v-else class="inline-flex items-center gap-0.5 rounded bg-white/70 px-1 py-0.5 text-[.82em] font-semibold text-forest">
