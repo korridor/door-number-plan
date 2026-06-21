@@ -10,18 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Check out code"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: "Setup node"
-        uses: actions/setup-node@v4
+        uses: pnpm/action-setup@v6
         with:
-          node-version: 18
+          cache: true
 
-      - name: "Install npm dependencies"
-        run: npm ci
+      - name: "Install dependencies"
+        run: pnpm install
 
       - name: "Build static site"
-        run: npx astro build
+        run: pnpm build
 
       - name: "Setup PHP with PECL extension"
         uses: shivammathur/setup-php@v2
